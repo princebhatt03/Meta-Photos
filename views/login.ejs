@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Meta Photos</title>
+    <link
+      rel="stylesheet"
+      href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <div id="mainX">
+      <h1>Meta Photos</h1>
+      <h3>Welcome back login your account</h3>
+
+      <% if(error.length > 0){ %>
+      <p class="error"><%= error %></p>
+      <% } %>
+      <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+      </div>
+      <div class="login-card">
+        <form
+          action="/login"
+          method="post">
+          <input
+            style="color: white"
+            type="text"
+            name="username"
+            required
+            placeholder="Username" />
+          <input
+            style="color: white"
+            type="password"
+            required
+            name="password"
+            placeholder="Password" />
+          <div class="button-container">
+            <button class="login-btn">Login</button>
+          </div>
+          <span id="spn"
+            >Didn't have a Meta Photos Account?<a
+              class="anc"
+              href="/">
+              Sign Up</a
+            ></span
+          >
+        </form>
+      </div>
+      <div class="credit">
+        <span
+          >Created by
+          <a href="https://www.linkedin.com/in/prince-bhatt-0958a725a/"
+            >Prince Bhatt</a
+          ></span
+        >
+      </div>
+    </div>
+    s
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+    </script>
+  </body>
+</html>

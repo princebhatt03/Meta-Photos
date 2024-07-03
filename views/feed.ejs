@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Meta Photos - Home</title>
+    <link
+      rel="stylesheet"
+      href="/stylesheets/style2.css" />
+  </head>
+  <body>
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <nav>
+      <div class="logo">
+        <h1>Meta Photos</h1>
+      </div>
+      <ul>
+        <li>
+          <a href="feed">Home</a>
+        </li>
+        <li>
+          <a href="about">About</a>
+        </li>
+        <li>
+          <a href="prof">Profile</a>
+        </li>
+        <li>
+          <a href="/logOut">LogOut</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </nav>
+    <div class="menubar">
+      <ul>
+        <li>
+          <a href="feed">Home</a>
+        </li>
+        <li>
+          <a href="about">About</a>
+        </li>
+        <li>
+          <a href="prof">Profile</a>
+        </li>
+        <li>
+          <a href="/logOut">LogOut</a>
+        </li>
+      </ul>
+    </div>
+    <div id="page">
+      <div class="responsive">
+        <div class="cardsss">
+          <% user.posts.forEach(function(post){ %>
+          <div class="gallery">
+            <img
+              src="/images/uploads/<%= post.image %>"
+              alt="" />
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+    <div class="credit">
+      <span
+        >Created by
+        <a href="https://www.linkedin.com/in/prince-bhatt-0958a725a/"
+          >Prince Bhatt</a
+        ></span
+      >
+    </div>
+    <div class="up">
+      <button
+        class="btn"
+        onclick="location.href='/upload'">
+        Upload More Photos
+      </button>
+    </div>
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+    </script>
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>
