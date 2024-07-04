@@ -10,6 +10,10 @@
       content="ie=edge" />
     <title>Meta Photos - Profile</title>
     <link
+      rel="shortcut icon"
+      href="/images/favicon.png"
+      type="image/x-icon" />
+    <link
       rel="stylesheet"
       type="text/css"
       target="_blank"
@@ -109,7 +113,7 @@
         </div>
         <div class="buttons">
           <button onclick="location.href='/upload'">Upload</button>
-          <button>Edit Profile</button>
+          <button onclick="alt()">Edit Profile</button>
         </div>
         <div class="social-share">
           <div class="row">
@@ -141,6 +145,11 @@
       window.addEventListener('load', function () {
         document.body.classList.add('loaded');
       });
+      function alt() {
+        alert(
+          'Edit Profile Functionality will be available soon, Stay Tuned!!'
+        );
+      }
     </script>
     <script src="/javascripts/script.js"></script>
   </body>
