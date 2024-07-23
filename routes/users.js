@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const plm = require('passport-local-mongoose');
+const uri =
+  'mongodb+srv://princebhatt316:DnFqDYxei3ai8X3g@cluster0.vdwbeya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
-mongoose.connect('mongodb://127.0.0.1:27017/MetaPhotos');
+mongoose.connect(uri);
 
 const userSchema = mongoose.Schema({
   username: String,
