@@ -9,7 +9,7 @@ const postModel = require('./post');
 passport.use(new localStrategy(userModel.authenticate()));
 
 router.get('/', function (req, res, next) {
-  res.render('index');
+  res.render('index', { error: req.flash('error') });
 });
 router.get('/prof', isLoggedIn, async function (req, res, next) {
   const user = await userModel.findOne({
@@ -52,18 +52,26 @@ router.post('/upload', isLoggedIn, upload.single('file'), async (req, res) => {
   res.redirect('feed');
 });
 
-router.post('/register', function (req, res, next) {
-  const userdata = new userModel({
-    username: req.body.username,
-    name: req.body.name,
-    email: req.body.email,
-  });
-  userModel.register(userdata, req.body.password).then(function () {
-    passport.authenticate('local')(req, res, function () {
-      res.redirect('prof');
+router.post(
+  '/register',
+  passport.authenticate('local', {
+    successRedirect: '/prof',
+    failureRedirect: '/',
+    failureFlash: true,
+  }),
+  function (req, res, next) {
+    const userdata = new userModel({
+      username: req.body.username,
+      name: req.body.name,
+      email: req.body.email,
     });
-  });
-});
+    userModel.register(userdata, req.body.password).then(function () {
+      passport.authenticate('local')(req, res, function () {
+        res.redirect('prof');
+      });
+    });
+  }
+);
 router.post(
   '/login',
   passport.authenticate('local', {
