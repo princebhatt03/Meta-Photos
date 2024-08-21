@@ -52,26 +52,45 @@ router.post('/upload', isLoggedIn, upload.single('file'), async (req, res) => {
   res.redirect('feed');
 });
 
-router.post(
-  '/register',
-  passport.authenticate('local', {
-    successRedirect: '/prof',
-    failureRedirect: '/',
-    failureFlash: true,
-  }),
-  function (req, res, next) {
-    const userdata = new userModel({
-      username: req.body.username,
-      name: req.body.name,
-      email: req.body.email,
+// router.post(
+//   '/register',
+//   passport.authenticate('local', {
+//     successRedirect: '/prof',
+//     failureRedirect: '/',
+//     failureFlash: true,
+//   }),
+//   function (req, res, next) {
+//     const userdata = new userModel({
+//       username: req.body.username,
+//       name: req.body.name,
+//       email: req.body.email,
+//     });
+//     userModel.register(userdata, req.body.password).then(function () {
+//       passport.authenticate('local')(req, res, function () {
+//         res.redirect('prof');
+//       });
+//     });
+//   }
+// );
+
+router.post('/register', function (req, res, next) {
+  const userdata = new userModel({
+    username: req.body.username,
+    name: req.body.name,
+    email: req.body.email,
+  });
+
+  userModel.register(userdata, req.body.password, function (err, user) {
+    if (err) {
+      req.flash('error', err.message);
+      return res.redirect('/register');
+    }
+    passport.authenticate('local')(req, res, function () {
+      res.redirect('/prof');
     });
-    userModel.register(userdata, req.body.password).then(function () {
-      passport.authenticate('local')(req, res, function () {
-        res.redirect('prof');
-      });
-    });
-  }
-);
+  });
+});
+
 router.post(
   '/login',
   passport.authenticate('local', {
