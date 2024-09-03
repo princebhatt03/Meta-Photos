@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
 
-const uploadDir = './public/images/uploads';
+const uploadDir = path.join(__dirname, '../public/images/uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -24,15 +24,15 @@ function checkFileType(file, cb) {
   const mimetype = filetypes.test(file.mimetype);
 
   if (mimetype && extname) {
-    return cb(null, true);
+    cb(null, true);
   } else {
-    cb('Error: Images Only!');
+    cb(new Error('Error: Images Only!'));
   }
 }
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 4000000 },
+  limits: { fileSize: 4000000 }, 
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   },

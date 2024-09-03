@@ -1,18 +1,35 @@
 const mongoose = require('mongoose');
 const plm = require('passport-local-mongoose');
-const uri =
-  'mongodb+srv://princebhatt316:DnFqDYxei3ai8X3g@cluster0.vdwbeya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+require('dotenv').config();
 
-mongoose.connect(uri);
+const uri = process.env.MONGODB_URI;
 
-const userSchema = mongoose.Schema({
-  username: String,
-  name: String,
-  email: String,
+mongoose
+  .connect(uri)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: [/.+@.+\..+/, 'Please fill a valid email address'],
+  },
   password: String,
   profileImage: String,
-  // posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post' }],
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post' }],
 });
 
 userSchema.plugin(plm);
+
 module.exports = mongoose.model('user', userSchema);
