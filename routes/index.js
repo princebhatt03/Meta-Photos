@@ -12,20 +12,23 @@ router.get('/', function (req, res, next) {
   res.render('index', { error: req.flash('error') });
 });
 
+// Profile route
 router.get('/prof', isLoggedIn, async function (req, res, next) {
+  const success = req.flash('success');
+  const error = req.flash('error');
   const user = await userModel.findOne({
     username: req.session.passport.user,
   });
-  res.render('prof', { user });
+  res.render('prof', { user, success, error });
 });
 
+// Feed route
 router.get('/feed', isLoggedIn, async (req, res) => {
   try {
     const user = await userModel
       .findOne({ username: req.session.passport.user })
       .populate('posts');
 
-    // Make sure the posts' URLs are in the correct format for rendering
     const posts = user.posts.map(post => {
       return {
         imageUrl: post.image,
@@ -45,18 +48,54 @@ router.get('/feed', isLoggedIn, async (req, res) => {
   }
 });
 
+// Login route
 router.get('/login', function (req, res, next) {
   res.render('login', { error: req.flash('error') });
 });
 
+// About route
 router.get('/about', isLoggedIn, function (req, res, next) {
   res.render('about');
 });
 
-router.get('/edit', isLoggedIn, function (req, res, next) {
-  res.render('edit');
+// Edit Profile route
+router.get('/edit', isLoggedIn, (req, res) => {
+  const success = req.flash('success');
+  const error = req.flash('error');
+  const { username } = req.session.user; // ensure session contains user object
+  res.render('edit', { success, error, user: username });
 });
 
+// Profile update post route
+router.post('/prof', isLoggedIn, async (req, res) => {
+  try {
+    const { username, currentPassword, newPassword, confirmPassword } =
+      req.body;
+    const user = await userModel.findById(req.session.user._id);
+
+    if (!user) throw new Error('User not found');
+    if (currentPassword && user.password !== currentPassword) {
+      throw new Error('Incorrect current password');
+    }
+
+    if (newPassword && newPassword !== confirmPassword) {
+      throw new Error('Passwords do not match');
+    }
+
+    if (username) user.username = username;
+    if (newPassword) user.password = newPassword;
+    await user.save();
+
+    req.session.user.username = username; // Update session
+    req.flash('success', 'Profile updated successfully');
+    res.redirect('/prof');
+  } catch (error) {
+    req.flash('error', error.message);
+    res.redirect('/prof');
+  }
+});
+
+// Image upload route
 router.get('/upload', isLoggedIn, function (req, res) {
   res.render('upload', {
     messages: req.flash(),
@@ -82,7 +121,7 @@ router.post('/upload', isLoggedIn, upload.single('file'), async (req, res) => {
     user.posts.push(post._id);
     await user.save();
 
-    req.flash('success', 'Image uploaded successfully!');
+    req.flash('success', 'Post uploaded successfully!');
     res.redirect('/feed');
   } catch (err) {
     console.error(err);
@@ -91,6 +130,7 @@ router.post('/upload', isLoggedIn, upload.single('file'), async (req, res) => {
   }
 });
 
+// Delete post route
 router.post('/delete/:postId', isLoggedIn, async (req, res) => {
   const { postId } = req.params;
 
@@ -119,6 +159,7 @@ router.post('/delete/:postId', isLoggedIn, async (req, res) => {
   }
 });
 
+// Register route
 router.post('/register', function (req, res, next) {
   const userdata = new userModel({
     username: req.body.username,
@@ -137,6 +178,7 @@ router.post('/register', function (req, res, next) {
   });
 });
 
+// Login post route
 router.post(
   '/login',
   passport.authenticate('local', {
@@ -149,6 +191,7 @@ router.post(
   }
 );
 
+// Logout route
 router.get('/logOut', function (req, res, next) {
   req.logOut(function (err) {
     if (err) {
@@ -158,6 +201,7 @@ router.get('/logOut', function (req, res, next) {
   });
 });
 
+// Middleware for checking if the user is logged in
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect('/login');
