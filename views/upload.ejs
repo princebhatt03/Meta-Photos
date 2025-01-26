@@ -26,6 +26,13 @@
         transition: background-color 0.3s ease, transform 0.2s ease;
       }
 
+      .showDiaDiv {
+        width: auto;
+        position: fixed;
+        top: 5%;
+        display: none;
+      }
+
       /* Button Hover Effects */
       button:hover {
         background-color: #45a049; /* Darker green */
@@ -57,15 +64,22 @@
       .alert-success {
         background-color: #28a745; /* Green success message */
         color: white;
+        top: 10%;
+        position: fixed;
       }
 
       .alert-danger {
+        top: 10%;
+        position: fixed;
         background-color: #dc3545; /* Red error message */
         color: white;
       }
 
       /* Styling the form and its components */
       .formMain {
+        width: 100%;
+        top: 10%;
+        position: fixed;
         margin-top: 20px;
         text-align: center;
       }
@@ -185,8 +199,15 @@
           type="file"
           placeholder="Upload Your Image"
           name="file" />
-        <button type="submit">Upload</button>
+        <button
+          onclick="showDia()"
+          type="submit">
+          Upload
+        </button>
       </form>
+      <div class="showDiaDiv">
+        <p>Uploading Post please Wait...</p>
+      </div>
     </div>
     <div class="credit">
       <span
@@ -200,6 +221,10 @@
       window.addEventListener('load', function () {
         document.body.classList.add('loaded');
       });
+
+      function showDia() {
+        document.querySelector('.showDiaDiv').style.display = 'block';
+      }
     </script>
     <script src="/javascripts/script.js"></script>
   </body>
