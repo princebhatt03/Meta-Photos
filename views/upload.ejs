@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Meta Photos</title>
+    <link
+      rel="shortcut icon"
+      href="/images/favicon.png"
+      type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="/stylesheets/style2.css" />
+    <style>
+      /* General Button Styles */
+      button {
+        background-color: #4caf50; /* Green */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      /* Button Hover Effects */
+      button:hover {
+        background-color: #45a049; /* Darker green */
+        transform: scale(1.05);
+      }
+
+      /* Button for file input (Upload button) */
+      input[type='file'] {
+        display: block;
+        margin: 10px 0;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      input[type='file']:hover {
+        border-color: #4caf50; /* Green border on hover */
+      }
+
+      /* Style for success and error messages (alert boxes) */
+      .alert {
+        padding: 10px;
+        margin: 15px 0;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .alert-success {
+        background-color: #28a745; /* Green success message */
+        color: white;
+      }
+
+      .alert-danger {
+        background-color: #dc3545; /* Red error message */
+        color: white;
+      }
+
+      /* Styling the form and its components */
+      .formMain {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .formMain form {
+        display: inline-block;
+        background-color: #f7f7f7;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .formMain form input[type='file'] {
+        margin-bottom: 15px;
+      }
+
+      /* Footer section styles */
+      .credit {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 14px;
+      }
+
+      .credit a {
+        color: #4caf50; /* Green */
+        text-decoration: none;
+      }
+
+      .credit a:hover {
+        text-decoration: underline;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .section-left {
+        left: 0;
+      }
+
+      .section-right {
+        right: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <nav>
+      <div class="logo">
+        <h1>Meta Photos</h1>
+      </div>
+      <ul>
+        <li>
+          <a href="feed">Home</a>
+        </li>
+        <li>
+          <a href="about">About</a>
+        </li>
+        <li>
+          <a href="profile">Profile</a>
+        </li>
+        <li>
+          <a href="/logOut">LogOut</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </nav>
+    <div class="menubar">
+      <ul>
+        <li>
+          <a href="feed">Home</a>
+        </li>
+        <li>
+          <a href="about">About</a>
+        </li>
+        <li>
+          <a href="profile">Profile</a>
+        </li>
+        <li>
+          <a href="/logOut">LogOut</a>
+        </li>
+      </ul>
+    </div>
+
+    <br />
+    <!-- Display success message -->
+    <% if (messages.success) { %>
+    <div class="alert alert-success"><%= messages.success %></div>
+    <% } %>
+
+    <!-- Display error message -->
+    <% if (messages.error) { %>
+    <div class="alert alert-danger"><%= messages.error %></div>
+    <% } %>
+
+    <br />
+
+    <div class="formMain">
+      <form
+        action="/upload"
+        enctype="multipart/form-data"
+        method="POST">
+        <input
+          type="file"
+          placeholder="Upload Your Image"
+          name="file" />
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+    <div class="credit">
+      <span
+        >Created by
+        <a href="https://www.linkedin.com/in/prince-bhatt-0958a725a/"
+          >Prince Bhatt</a
+        ></span
+      >
+    </div>
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+    </script>
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>

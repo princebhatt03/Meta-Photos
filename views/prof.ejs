@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="ie=edge" />
+    <title>Meta Photos - Profile</title>
+    <link
+      rel="shortcut icon"
+      href="/images/favicon.png"
+      type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      target="_blank"
+      href="/stylesheets/style2.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <nav>
+      <div class="logo">
+        <h1>Meta Photos</h1>
+      </div>
+      <ul>
+        <li>
+          <a href="feed">Home</a>
+        </li>
+        <li>
+          <a href="about">About</a>
+        </li>
+        <li>
+          <a href="profile">Profile</a>
+        </li>
+        <li>
+          <a href="/logOut">LogOut</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </nav>
+    <div class="menubar">
+      <ul>
+        <li>
+          <a href="feed">Home</a>
+        </li>
+        <li>
+          <a href="about">About</a>
+        </li>
+        <li>
+          <a href="prof">Profile</a>
+        </li>
+        <li>
+          <a href="/logOut">LogOut</a>
+        </li>
+      </ul>
+    </div>
+    <div id="pageX">
+      <div class="wrapper1">
+        <div class="img-area">
+          <div class="inner-area">
+            <img
+              style="
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+              "
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              alt="" />
+          </div>
+        </div>
+        <!-- <div class="icon arrow"><i class="fas fa-arrow-left"></i></div> -->
+        <!-- <div class="icon dots"><i class="fas fa-ellipsis-v"></i></div> -->
+        <div class="name"><%= user.username %></div>
+        <div class="about"><%= user.name %></div>
+        <br />
+        <br />
+        <!-- <div class="social-icons">
+          <a
+            href="#"
+            class="fb"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a
+            href="#"
+            class="twitter"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a
+            href="#"
+            class="insta"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a
+            href="#"
+            class="yt"
+            ><i class="fab fa-youtube"></i
+          ></a>
+        </div> -->
+        <div class="buttons">
+          <button onclick="location.href='/upload'">Upload</button>
+          <button onclick="alt()">Edit Profile</button>
+        </div>
+        <!-- <div class="social-share">
+          <div class="row">
+            <i class="far fa-heart"></i>
+            <i class="icon-2 fas fa-heart"></i>
+            <span>20.4k</span>
+          </div>
+          <div class="row">
+            <i class="far fa-comment"></i>
+            <i class="icon-2 fas fa-comment"></i>
+            <span>14.3k</span>
+          </div>
+          <div class="row">
+            <i class="fas fa-share"></i>
+            <span>12.8k</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="credit">
+      <span
+        >Created by
+        <a href="https://www.linkedin.com/in/prince-bhatt-0958a725a/"
+          >Prince Bhatt</a
+        ></span
+      >
+    </div>
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+      function alt() {
+        alert(
+          'Edit Profile Functionality will be available soon, Stay Tuned!!'
+        );
+      }
+    </script>
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Meta Photos - Home</title>
+    <style>
+      .delete-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .delete-btn:hover {
+        background-color: darkred;
+      }
+
+      .alert-success {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+
+      .alert-danger {
+        background-color: red;
+        color: white;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+
+      /* Custom Modal Styles */
+      #deleteConfirmation {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      #deleteConfirmation .confirmation-box {
+        background-color: #333;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      #deleteConfirmation .confirmation-box button {
+        padding: 10px 20px;
+        margin-top: 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* Style for Cancel button */
+      #cancel-delete-btn {
+        background-color: grey;
+      }
+      /* Flash messages */
+      .alert {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+
+      .alert-success {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .alert-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      /* Grid Styles for Posts */
+      #page {
+        padding: 20px;
+      }
+
+      .responsive {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+        justify-items: center;
+        padding: 0 15px;
+      }
+
+      /* Gallery Card Style */
+      /* General styles for gallery and image */
+      .gallery {
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .gallery img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+        border-radius: 8px;
+      }
+
+      /* Hover effect for image */
+      .gallery:hover img {
+        transform: scale(1.05);
+      }
+
+      /* Hide the delete button initially */
+      .delete-btn {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.3s ease;
+      }
+
+      /* Show the delete button when the user hovers over the image */
+      .gallery:hover .delete-btn {
+        opacity: 1; /* Make the button visible */
+      }
+
+      /* Optional: If you want a slight delay before the button appears */
+      .gallery:hover .delete-btn {
+        opacity: 1;
+        transition: opacity 0.3s ease 0.2s; /* Delay effect */
+      }
+
+      /* Delete Button Hover Effect */
+      .delete-btn:hover {
+        background-color: darkred;
+      }
+
+      /* Other existing styles... */
+
+      /* Upload Button */
+      .up {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .up .btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .up .btn:hover {
+        background-color: #45a049;
+      }
+
+      /* Modal Styles for Delete Confirmation */
+      #deleteConfirmation {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      #deleteConfirmation .confirmation-box {
+        background-color: #333;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      #deleteConfirmation .confirmation-box button {
+        padding: 10px 20px;
+        margin-top: 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      #cancel-delete-btn {
+        background-color: grey;
+      }
+
+      /* Media Queries for Smaller Screens */
+      @media (max-width: 1024px) {
+        .responsive {
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .responsive {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+
+      @media (max-width: 480px) {
+        .responsive {
+          grid-template-columns: 1fr;
+        }
+
+        .gallery img {
+          height: 250px; /* Keep a consistent size on small screens */
+        }
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="/images/favicon.png"
+      type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="/stylesheets/style2.css" />
+  </head>
+  <body>
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+
+    <nav>
+      <div class="logo">
+        <h1>Meta Photos</h1>
+      </div>
+      <ul>
+        <li><a href="feed">Home</a></li>
+        <li><a href="about">About</a></li>
+        <li><a href="prof">Profile</a></li>
+        <li><a href="/logOut">LogOut</a></li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </nav>
+
+    <div class="menubar">
+      <ul>
+        <li><a href="feed">Home</a></li>
+        <li><a href="about">About</a></li>
+        <li><a href="prof">Profile</a></li>
+        <li><a href="/logOut">LogOut</a></li>
+      </ul>
+    </div>
+
+    <div id="page">
+      <div class="responsive">
+        <div class="cardsss">
+          <% if (messages.success) { %>
+          <div class="alert alert-success"><%= messages.success %></div>
+          <% } %> <% if (messages.error) { %>
+          <div class="alert alert-danger"><%= messages.error %></div>
+          <% } %> <% if (user.posts && user.posts.length > 0) { %> <%
+          user.posts.forEach(function(post) { %>
+          <div class="gallery">
+            <img
+              src="<%= post.image %>"
+              alt="Uploaded Image"
+              loading="lazy" />
+            <button
+              class="delete-btn"
+              onclick="showDeleteConfirmation('<%= post._id %>')">
+              Delete
+            </button>
+          </div>
+          <% }); %> <% } else { %>
+          <p>No Photos available, Upload now!</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload More Photos Button -->
+    <div class="up">
+      <button
+        class="btn"
+        onclick="location.href='/upload'">
+        Upload
+      </button>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmation">
+      <div class="confirmation-box">
+        <p>Are you sure you want to delete this post?</p>
+        <form
+          id="deleteForm"
+          action="#"
+          method="POST">
+          <button
+            type="submit"
+            class="delete-btn2">
+            Confirm
+          </button>
+        </form>
+        <button
+          id="cancel-delete-btn"
+          onclick="cancelDelete()">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+      let selectedPostId = null; // Variable to store the selected post ID
+
+      function showDeleteConfirmation(postId) {
+        selectedPostId = postId; // Set the selected post ID
+        // Dynamically update the form action URL with the selected post ID
+        document.getElementById('deleteForm').action = `/delete/${postId}`;
+        // Show the confirmation modal
+        document.getElementById('deleteConfirmation').style.display = 'flex';
+      }
+
+      function cancelDelete() {
+        // Hide the confirmation modal
+        document.getElementById('deleteConfirmation').style.display = 'none';
+      }
+    </script>
+
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>

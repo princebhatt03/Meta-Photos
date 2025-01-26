@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Meta Photos</title>
+    <link
+      rel="shortcut icon"
+      href="/images/favicon.png"
+      type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <div id="main">
+      <div class="login-card">
+        <form
+          action="/update"
+          method="post"
+          enctype="multipart/form-data">
+          <button
+            style="background-color: #333333; color: #777777; text-align: left"
+            id="img-btn">
+            Edit Profile Picture
+          </button>
+          <input
+            hidden
+            id="image-input"
+            type="file"
+            name="image" />
+          <input
+            style="color: white"
+            type="text"
+            name="username"
+            required
+            placeholder="Edit username" />
+          <input
+            style="color: white"
+            type="text"
+            required
+            name="name"
+            placeholder="Edit name" />
+          <div class="button-container">
+            <button class="login-btn">Update Profile</button>
+          </div>
+        </form>
+      </div>
+      <div class="credit">
+        <span
+          >Created by
+          <a href="https://www.linkedin.com/in/prince-bhatt-0958a725a/"
+            >Prince Bhatt</a
+          ></span
+        >
+      </div>
+    </div>
+    <script>
+      window.addEventListener('load', function () {
+        document.body.classList.add('loaded');
+      });
+
+      var imageInput = document.querySelector('#image-input');
+      var imageBtn = document.querySelector('#img-btn');
+      imageBtn.addEventListener('click', function () {
+        imageInput.click();
+      });
+    </script>
+  </body>
+</html>
