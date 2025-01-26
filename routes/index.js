@@ -36,16 +36,18 @@ router.get('/feed', isLoggedIn, async (req, res) => {
 router.get('/login', function (req, res, next) {
   res.render('login', { error: req.flash('error') });
 });
+
 router.get('/about', isLoggedIn, function (req, res, next) {
   res.render('about');
 });
+
 router.get('/edit', isLoggedIn, function (req, res, next) {
   res.render('edit');
 });
+
 router.get('/upload', isLoggedIn, function (req, res) {
-  // Pass any flash messages to the view
   res.render('upload', {
-    messages: req.flash(), // This will pass all flash messages to the view
+    messages: req.flash(),
   });
 });
 
