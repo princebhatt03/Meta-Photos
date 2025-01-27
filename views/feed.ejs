@@ -249,45 +249,58 @@
         <li><a href="/logOut">LogOut</a></li>
       </ul>
     </div>
-    <div id="page">
-      <div class="responsive">
-        <div class="cardsss">
-          <% if (messages.success) { %>
-          <div class="alert alert-success"><%= messages.success %></div>
-          <% } %> <% if (messages.error) { %>
-          <div class="alert alert-danger"><%= messages.error %></div>
-          <% } %> <% if (user.posts && user.posts.length > 0) { %> <%
-          user.posts.forEach(function(post) { %>
-          <div class="gallery">
-            <% if (post.image && (post.image.endsWith('.jpg') ||
-            post.image.endsWith('.jpeg') || post.image.endsWith('.png') ||
-            post.image.endsWith('.gif') || post.image.endsWith('.svg'))) { %>
-            <!-- If it's an image -->
-            <img
-              src="<%= post.image %>"
-              alt="Uploaded Image"
-              loading="lazy"
-              class="media" />
-            <% } else if (post.image && (post.image.endsWith('.mp4'))) { %>
-            <!-- If it's a video -->
-            <video
-              controls
-              class="media">
-              <source
+    <div
+      id="no-screenshot-overlay"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.01);
+        pointer-events: none;
+        z-index: 9999;
+      ">
+      <div id="page">
+        <div class="responsive">
+          <div class="cardsss">
+            <% if (messages.success) { %>
+            <div class="alert alert-success"><%= messages.success %></div>
+            <% } %> <% if (messages.error) { %>
+            <div class="alert alert-danger"><%= messages.error %></div>
+            <% } %> <% if (user.posts && user.posts.length > 0) { %> <%
+            user.posts.forEach(function(post) { %>
+            <div class="gallery">
+              <% if (post.image && (post.image.endsWith('.jpg') ||
+              post.image.endsWith('.jpeg') || post.image.endsWith('.png') ||
+              post.image.endsWith('.gif') || post.image.endsWith('.svg'))) { %>
+              <!-- If it's an image -->
+              <img
                 src="<%= post.image %>"
-                type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+                alt="Uploaded Image"
+                loading="lazy"
+                class="media" />
+              <% } else if (post.image && (post.image.endsWith('.mp4'))) { %>
+              <!-- If it's a video -->
+              <video
+                controls
+                class="media">
+                <source
+                  src="<%= post.image %>"
+                  type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <% } %>
+              <button
+                class="delete-btn"
+                onclick="showDeleteConfirmation('<%= post._id %>')">
+                Delete
+              </button>
+            </div>
+            <% }); %> <% } else { %>
+            <p>No Photos or Videos available, Upload now!</p>
             <% } %>
-            <button
-              class="delete-btn"
-              onclick="showDeleteConfirmation('<%= post._id %>')">
-              Delete
-            </button>
           </div>
-          <% }); %> <% } else { %>
-          <p>No Photos or Videos available, Upload now!</p>
-          <% } %>
         </div>
       </div>
     </div>
@@ -324,6 +337,23 @@
       window.addEventListener('load', function () {
         document.body.classList.add('loaded');
       });
+
+      document.addEventListener('contextmenu', event => event.preventDefault());
+      document.addEventListener('keydown', event => {
+        if (
+          event.key === 'PrintScreen' ||
+          (event.ctrlKey && event.key === 's')
+        ) {
+          alert('Screenshots are disabled.');
+          event.preventDefault();
+        }
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          alert('Screen recording is not allowed.');
+        }
+      });
+
       let selectedPostId = null;
 
       function showDeleteConfirmation(postId) {
