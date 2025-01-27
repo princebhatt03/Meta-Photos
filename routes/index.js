@@ -102,33 +102,46 @@ router.get('/upload', isLoggedIn, function (req, res) {
   });
 });
 
-router.post('/upload', isLoggedIn, upload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) {
-      req.flash('error', 'No file was uploaded.');
-      return res.redirect('/upload');
+// Update the upload route to handle multiple files
+router.post(
+  '/upload',
+  isLoggedIn,
+  upload.array('files', 10),
+  async (req, res) => {
+    try {
+      if (!req.files || req.files.length === 0) {
+        req.flash('error', 'No files were uploaded.');
+        return res.redirect('/upload');
+      }
+
+      const user = await userModel.findOne({
+        username: req.session.passport.user,
+      });
+
+      // Create posts for each uploaded file
+      const posts = await Promise.all(
+        req.files.map(async file => {
+          return await postModel.create({
+            image: file.path,
+            user: user._id,
+          });
+        })
+      );
+
+      // Add all post IDs to the user's posts array
+      const postIds = posts.map(post => post._id);
+      user.posts.push(...postIds);
+      await user.save();
+
+      req.flash('success', 'Posts uploaded successfully!');
+      res.redirect('/feed');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', 'An error occurred while uploading the files.');
+      res.redirect('/upload');
     }
-
-    const user = await userModel.findOne({
-      username: req.session.passport.user,
-    });
-
-    const post = await postModel.create({
-      image: req.file.path,
-      user: user._id,
-    });
-
-    user.posts.push(post._id);
-    await user.save();
-
-    req.flash('success', 'Post uploaded successfully!');
-    res.redirect('/feed');
-  } catch (err) {
-    console.error(err);
-    req.flash('error', 'An error occurred while uploading the image.');
-    res.redirect('/upload');
   }
-});
+);
 
 // Delete post route
 router.post('/delete/:postId', isLoggedIn, async (req, res) => {
@@ -173,7 +186,7 @@ router.post('/register', function (req, res, next) {
       return res.redirect('/register');
     }
     passport.authenticate('local')(req, res, function () {
-      res.redirect('/prof');
+      res.redirect('/feed');
     });
   });
 });
@@ -182,7 +195,7 @@ router.post('/register', function (req, res, next) {
 router.post(
   '/login',
   passport.authenticate('local', {
-    successRedirect: '/prof',
+    successRedirect: '/feed',
     failureRedirect: '/login',
     failureFlash: true,
   }),

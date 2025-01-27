@@ -356,7 +356,7 @@ div.desc {
 }
 .about-card {
   width: 100%;
-  height: 100%;
+  height: auto;
   top: 10%;
   position: absolute;
   display: flex;
@@ -367,11 +367,11 @@ div.desc {
 }
 #pageX {
   width: 100%;
-  height: 90%;
+  height: 100%;
   display: flex;
-  top: 8%;
+  top: 0;
+  padding: 10px;
   position: absolute;
-  overflow: hidden;
   justify-content: center;
   align-items: center;
 }

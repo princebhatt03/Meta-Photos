@@ -7,6 +7,10 @@
       content="width=device-width, initial-scale=1.0" />
     <title>Meta Photos - Home</title>
     <style>
+      body {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
       .media {
         width: 100%;
         max-width: 500px;
@@ -30,6 +34,17 @@
         font-size: 14px;
       }
       .delete-btn:hover {
+        background-color: darkred;
+      }
+      .delete-btn22 {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .delete-btn22:hover {
         background-color: darkred;
       }
       .alert-success {
@@ -123,8 +138,8 @@
         position: absolute;
         bottom: 10px;
         left: 10px;
-        background-color: red;
-        color: white;
+        background-color: #ecf0f3;
+        color: black;
         border: none;
         padding: 5px 10px;
         font-size: 14px;
@@ -141,7 +156,31 @@
         transition: opacity 0.3s ease 0.2s; /* Delay effect */
       }
       .delete-btn:hover {
-        background-color: darkred;
+        background-color: #acd1ee;
+      }
+      .delete-btn22 {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: #ecf0f3;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.3s ease;
+      }
+      .gallery:hover .delete-btn22 {
+        opacity: 1; /* Make the button visible */
+      }
+      .gallery:hover .delete-btn22 {
+        opacity: 1;
+        transition: opacity 0.3s ease 0.2s; /* Delay effect */
+      }
+      .delete-btn22:hover {
+        background-color: #acd1ee;
       }
       .up {
         text-align: center;
@@ -217,6 +256,9 @@
     <link
       rel="stylesheet"
       href="/stylesheets/style2.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet" />
   </head>
   <body>
     <div id="loader-wrapper">
@@ -249,58 +291,51 @@
         <li><a href="/logOut">LogOut</a></li>
       </ul>
     </div>
-    <div
-      id="no-screenshot-overlay"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(255, 255, 255, 0.01);
-        pointer-events: none;
-        z-index: 9999;
-      ">
-      <div id="page">
-        <div class="responsive">
-          <div class="cardsss">
-            <% if (messages.success) { %>
-            <div class="alert alert-success"><%= messages.success %></div>
-            <% } %> <% if (messages.error) { %>
-            <div class="alert alert-danger"><%= messages.error %></div>
-            <% } %> <% if (user.posts && user.posts.length > 0) { %> <%
-            user.posts.forEach(function(post) { %>
-            <div class="gallery">
-              <% if (post.image && (post.image.endsWith('.jpg') ||
-              post.image.endsWith('.jpeg') || post.image.endsWith('.png') ||
-              post.image.endsWith('.gif') || post.image.endsWith('.svg'))) { %>
-              <!-- If it's an image -->
-              <img
+
+    <div id="page">
+      <div class="responsive">
+        <div class="cardsss">
+          <% if (messages.success) { %>
+          <div class="alert alert-success"><%= messages.success %></div>
+          <% } %> <% if (messages.error) { %>
+          <div class="alert alert-danger"><%= messages.error %></div>
+          <% } %> <% if (user.posts && user.posts.length > 0) { %> <%
+          user.posts.forEach(function(post) { %>
+          <div class="gallery">
+            <% if (post.image && (post.image.endsWith('.jpg') ||
+            post.image.endsWith('.jpeg') || post.image.endsWith('.png') ||
+            post.image.endsWith('.gif') || post.image.endsWith('.svg'))) { %>
+            <!-- If it's an image -->
+            <img
+              src="<%= post.image %>"
+              alt="Uploaded Image"
+              loading="lazy"
+              class="media" />
+            <% } else if (post.image && (post.image.endsWith('.mp4'))) { %>
+            <!-- If it's a video -->
+            <video
+              controls
+              class="media">
+              <source
                 src="<%= post.image %>"
-                alt="Uploaded Image"
-                loading="lazy"
-                class="media" />
-              <% } else if (post.image && (post.image.endsWith('.mp4'))) { %>
-              <!-- If it's a video -->
-              <video
-                controls
-                class="media">
-                <source
-                  src="<%= post.image %>"
-                  type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <% } %>
-              <button
-                class="delete-btn"
-                onclick="showDeleteConfirmation('<%= post._id %>')">
-                Delete
-              </button>
-            </div>
-            <% }); %> <% } else { %>
-            <p>No Photos or Videos available, Upload now!</p>
+                type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
             <% } %>
+            <button
+              class="delete-btn"
+              onclick="showDeleteConfirmation('<%= post._id %>')">
+              <i class="ri-delete-bin-5-fill"></i>
+            </button>
+            <button
+              class="delete-btn22"
+              onclick="location.href='<%= post.image %>'">
+              <i class="ri-fullscreen-exit-fill"></i>
+            </button>
           </div>
+          <% }); %> <% } else { %>
+          <p>No Photos or Videos available, Upload now!</p>
+          <% } %>
         </div>
       </div>
     </div>
@@ -339,20 +374,6 @@
       });
 
       document.addEventListener('contextmenu', event => event.preventDefault());
-      document.addEventListener('keydown', event => {
-        if (
-          event.key === 'PrintScreen' ||
-          (event.ctrlKey && event.key === 's')
-        ) {
-          alert('Screenshots are disabled.');
-          event.preventDefault();
-        }
-      });
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          alert('Screen recording is not allowed.');
-        }
-      });
 
       let selectedPostId = null;
 
